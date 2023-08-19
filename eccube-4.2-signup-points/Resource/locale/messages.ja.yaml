@@ -1,0 +1,12 @@
+# flash messages
+points_on_sign_up.admin.save.complete: 登録しました。
+points_on_sign_up.admin.save.error: 登録に失敗しました。
+points_on_sign_up.admin.error.negative_points: 0以上の数字を入力してください
+
+# 設定画面
+points_on_sign_up.admin.config.title: 会員登録ポイント付与
+points_on_sign_up.admin.config.sub_title: プラグイン一覧
+points_on_sign_up.admin.config.config_title: 設定
+points_on_sign_up.admin.config.points: 会員登録ポイント付与
+points_on_sign_up.admin.config.conversion.save: 登録
+points_on_sign_up.admin.config.conversion.back: プラグイン一覧

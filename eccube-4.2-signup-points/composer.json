@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/pointsonsignup",
+  "version": "1.0.2",
+  "description": "会員登録ポイント付与",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+  },
+  "extra": {
+    "code": "PointsOnSignUp"
+  }
+}
