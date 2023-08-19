@@ -1,0 +1,53 @@
+{% extends '@admin/default_frame.twig' %}
+{% set menus = ['pay_jp', 'pay_jp_log'] %}
+
+{% block title %}{{ 'pay_jp.admin.log.title'|trans }}{% endblock %}
+{% block sub_title %}{{ 'pay_jp.admin.log.sub_title'|trans }}{% endblock %}
+
+{% block main %}
+    <div class="c-contentsArea__cols">
+        <div class="c-contentsArea__primaryCol">
+            <div class="c-primaryCol">
+                {% if pagination and pagination.totalItemCount %}
+                    <div class="card rounded border-0 mb-4 d-block">
+                        <div class="card-body p-0">
+                            <table class="table table-sm" id="search_result">
+                                <thead>
+                                <tr>
+                                    <th class="border-top-0 pt-2 pb-2">{{ 'pay_jp.admin.log.create_at'|trans }}</th>
+                                    <th class="border-top-0 pt-2 pb-2">{{ 'pay_jp.admin.log.content'|trans }}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for PayJpLog in pagination %}
+                                    <tr>
+                                        <td class="align-middle">
+                                            {{ PayJpLog.getCreatedAt|date('Y-m-d H:m:s') }}
+                                        </td>
+                                        <td class="align-middle">
+                                            {{ PayJpLog.getMessage }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="row justify-content-md-center mb-4"></div>
+                        </div>
+                        <div class="row justify-content-md-center mb-4">
+                            {% if pagination.totalItemCount > 0 %}
+                                {% include "@admin/pager.twig" with { 'pages' : pagination.paginationData, 'routes' : 'pay_jp_admin_log_page' } %}
+                            {% endif %}
+                        </div>
+                        <div class="row justify-content-md-center mb-4"></div>
+                    </div>
+                {% else %}
+                    <div class="card rounded border-0">
+                        <div class="card-body p-4">
+                            <div class="text-center text-muted mb-4 h5">{{ 'pay_jp.admin.log.no_log'|trans }}</div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

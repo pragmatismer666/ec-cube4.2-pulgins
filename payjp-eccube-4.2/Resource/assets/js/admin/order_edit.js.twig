@@ -1,0 +1,16 @@
+<script>
+    $(function(){
+        {% if PayJpOrder is defined %}
+        if($("#order_Payment").parents('.form-group').length>0 && $('.payJpChargeID').length==0){
+            var payJpTargetElement=$("#order_Payment").parents('.form-group');
+            var htmlToAppend='<div class="row mb-3 form-group">\
+                        <label class="col-3 col-form-label">{{ 'pay_jp.admin.order.charge_id'|trans}}:</label>\
+                        <div class="col col-form-label">\
+                            <a class="payJpChargeID" href="{{ payJpChargeDashboardLink~PayJpOrder.getPayJpChargeId }}" target="_blank">{{ PayJpOrder.getPayJpChargeId }}</a>\
+                        </div>\
+                    </div>';
+            payJpTargetElement.after(htmlToAppend);
+        }
+        {% endif %}
+    });
+</script>
