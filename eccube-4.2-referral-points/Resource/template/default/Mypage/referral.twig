@@ -1,0 +1,117 @@
+{% extends 'default_frame.twig' %}
+
+{% set mypageno = 'referral' %}
+
+{% set body_class = 'mypage' %}
+
+{% block stylesheet %}
+    <style>
+        .ec-mypageRole__title {
+            margin-bottom: 16px;
+            font-weight: bold;
+            font-size: 24px;
+            text-align: center;
+        }
+        #referral_referral_code_input_group {
+            width: 100%;
+        }
+        #referral_referral_code,
+        #referral_referral_code + .input-group-addon{
+            background-color: inherit;
+        }
+        #referral_referral_code + .input-group-addon {
+            display: table-cell;
+            width: 34px;
+            border: 1px solid #C4CCCE;
+            border-radius: 0 3px 3px 0;
+            vertical-align: middle;
+            text-align: center;
+            cursor: pointer;
+            line-height: 0;
+            padding: 0;
+        }
+        #referral_referral_code + .input-group-addon:hover > svg {
+            fill: #777777;
+            transform: scale(1.1);
+        }
+        #referral_referral_code + .input-group-addon:active > svg {
+            fill: #0f0f0f;
+            transform: scale(1);
+        }
+        #referral_referral_code {
+            display: table-cell;
+            width: 100%;
+            border-bottom-right-radius: 0!important;
+            border-top-right-radius: 0!important;
+            border-right: 0;
+        }
+    </style>
+{% endblock stylesheet %}
+
+{% block main %}
+    <div class="ec-layoutRole__main">
+        <div class="ec-mypageRole">
+            <div class="ec-pageHeader">
+                <h1>{{ 'points_on_referral.front.mypage.referral.title'|trans }}/{{ 'front.mypage.nav__history'|trans }}</h1>
+            </div>
+            {% include 'Mypage/navi.twig' %}
+        </div>
+        <div class="ec-mypageRole">
+            <h3 class="ec-mypageRole__title">{{ 'points_on_referral.front.mypage.referral.code.title'|trans }}</h3>
+            <p class="ec-para-normal">{{ 'points_on_referral.front.mypage.referral.code.text'|trans }}</p>
+            <div class="form-group form-inline">
+                <span class="input-group" id="referral_referral_code_input_group">
+                    <input id="referral_referral_code" class="form-control" readonly value="{{ url('entry') ~ "?" ~ query_key ~ "=" ~ Referral.getReferralCode }}"/>
+                    <span class="input-group-addon" id="referral_referral_code_copy_btn">
+                        <svg height="20" width="20" viewBox="-40 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m271 512h-191c-44.113281 0-80-35.886719-80-80v-271c0-44.113281 35.886719-80 80-80h191c44.113281 0 80 35.886719 80 80v271c0 44.113281-35.886719 80-80 80zm-191-391c-22.054688 0-40 17.945312-40 40v271c0 22.054688 17.945312 40 40 40h191c22.054688 0 40-17.945312 40-40v-271c0-22.054688-17.945312-40-40-40zm351 261v-302c0-44.113281-35.886719-80-80-80h-222c-11.046875 0-20 8.953125-20 20s8.953125 20 20 20h222c22.054688 0 40 17.945312 40 40v302c0 11.046875 8.953125 20 20 20s20-8.953125 20-20zm0 0"/></svg>
+                    </span>
+                </span>
+            </div>
+        </div>
+        <hr/>
+        <div class="ec-mypageRole">
+            <h3 class="ec-mypageRole__title">{{ 'points_on_referral.front.mypage.referral.history.title'|trans }}</h3>
+            {% if pagination.totalItemCount > 0 %}
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>{{ 'points_on_referral.front.mypage.referral.history.number'|trans }}</th>
+                        <th>{{ 'points_on_referral.front.mypage.referral.history.referee_name'|trans }}</th>
+                        <th>{{ 'points_on_referral.front.mypage.referral.history.referral_awards'|trans }}</th>
+                        <th>{{ 'points_on_referral.front.mypage.referral.history.create_date'|trans }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for index, History in pagination %}
+                        <tr>
+                            <td>{{ index + pagesize * (pageno - 1) + 1 }}</td>
+                            <td>{{ History.getRefereeFullName }}</td>
+                            <td>{{ History.getReferrerRewards }}</td>
+                            <td>{{ History.getCreateDate|date_format }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <div class="ec-pagerRole">
+                    {% include "pager.twig" with {'pages': pagination.paginationData} %}
+                </div>
+            {% else %}
+                <p class="ec-para-normal">{{ 'points_on_referral.front.mypage.referral.history.empty'|trans }}</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock main %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+   $("#referral_referral_code_copy_btn").off('click').on('click', function() {
+      var $temp = $("<input>");
+      $("body").append($temp);
+      $temp.val($("#referral_referral_code").val()).select();
+      document.execCommand("copy");
+      $temp.remove();
+   });
+})
+</script>
+{% endblock javascript %}
