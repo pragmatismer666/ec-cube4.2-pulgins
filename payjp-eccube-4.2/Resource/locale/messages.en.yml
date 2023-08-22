@@ -1,0 +1,114 @@
+# nav
+pay_jp.admin.nav.pay_jp: PAY.JP Config
+pay_jp.admin.nav.pay_jp_config: API Key
+pay_jp.admin.nav.pay_jp_log: Log
+
+# flash messages
+pay_jp.admin.save.success: Saved succesfully.
+pay_jp.admin.save.failed: Fail saving data.
+
+# twig
+pay_jp.admin.config.title: PAY.JP Config
+pay_jp.admin.config.sub_title: API Key
+pay_jp.admin.config.header: API Key
+pay_jp.admin.config.save: Save
+pay_jp.admin.config.required: Required
+pay_jp.admin.config.back: Plugin List
+
+pay_jp.admin.config.public_api_key: Public API Key
+pay_jp.admin.config.public_api_key.error.blank: Public API key is not entered.
+pay_jp.admin.config.public_api_key.error.regex: Please enter key that can be disclosed with half-width alphanumeric characters.
+pay_jp.admin.config.api_key_secret: API Key Secret
+pay_jp.admin.config.api_key_secret.error.blank: Your api key secret has not been entered.
+pay_jp.admin.config.api_key_secret.error.regex: Please enter api key secret in half size alphanumeric characters.
+
+pay_jp.admin.config.is_auth_and_capture_on: Turn on Auth & Capture
+pay_jp.admin.config.charge_method: Charge Method
+pay_jp.admin.config.authorize: Authorize
+pay_jp.admin.config.authorize_and_capture: Authorize & Capture
+pay_jp.admin.config.payjp_fees_percent: Percentage of fee (refund with fee minus)
+pay_jp.admin.config.payjp_fees_percent.error.regex: Please enter valid PayJp Fees Percentage.
+
+pay_jp.admin.log.title: PAY.JP Config
+pay_jp.admin.log.sub_title: Log
+pay_jp.admin.log.create_at: Date Time
+pay_jp.admin.log.content: Contents
+pay_jp.admin.log.no_log: No log yet.
+
+
+#Order Details Page
+pay_jp.admin.order.charge_id: Payment ID
+pay_jp.admin.order.error.invalid_request: Invalid Request
+pay_jp.admin.order.section_title: PayJp Settlement
+pay_jp.admin.order.section_title_tooltip: You can perform operations related to PayJp settlement.
+pay_jp.admin.order.charge_id_tooltip: Payment ID on PayJp. When clicked it will be transferred to the details of the transaction on the PayJp administration screen.
+pay_jp.admin.order.actions: Settlement operation
+pay_jp.admin.order.capture_action: Capture Payment
+pay_jp.admin.order.capture_action_confirm: Are you sure you want to charge %charge_amount%?
+pay_jp.admin.order.refund_option.full_refund: Full Refund
+pay_jp.admin.order.refund_option.minus_fee: Minus Fee
+pay_jp.admin.order.refund_option.partial_refund: Partial Refund
+pay_jp.admin.order.refund_option.error.invalid: Please select valid refund option
+pay_jp.admin.order.refund_amount.error.invalid: Please enter valid amount to refund
+pay_jp.admin.order.refund_amount.error.exceeded: You are trying to refund amount greater than order total
+pay_jp.admin.order.refund_action: Refund
+pay_jp.admin.order.refund_action_confirm: are you sure you want to refund?
+pay_jp.admin.order.refunded_amount: Refunded Amount
+pay_jp.admin.order.error.already_captured: Payment has been already captured
+pay_jp.admin.order.error.refunded: This payment has already been refunded
+pay_jp.admin.order.success.capture: Payment captured successfully
+pay_jp.admin.order.status.refunded: Refunded
+
+# PAY.JPEvent
+pay_jp.front.card_info: Credit Card
+pay_jp.front.card_holder: Owner
+pay_jp.front.card_number: Number
+pay_jp.front.security_code: Security Code
+pay_jp.front.security_code_notice:  * on the reverse side
+pay_jp.front.expiration: Expiration
+pay_jp.front.card_accept: Already accepted
+pay_jp.front.use_another_card: Use another card
+pay_jp.front.card_details: brand ending with last4
+pay_jp.front.use_card: Use brand ending with last4
+pay_jp.front.save_card: Save card information
+pay_jp.shopping.verify.error.payment_total.too_small: The payment amount is too small.
+pay_jp.shopping.verify.error.payment_total.too_much: The payment amount is too much.
+pay_jp.shopping.verify.error.unexpected_error: Unexpected Error
+
+# PAY.JPClient
+pay_jp.front.unexpected_error: Please use another payment method or contact the administrator.
+
+# pay_jp.js
+pay_jp.front.js.credit_card_holder_required: Card holder is requried
+pay_jp.front.js.credit_card_number_required: Card number is required
+pay_jp.front.js.security_code_required: security code is required
+pay_jp.front.js.expiration_required: expiration is required
+
+#pay_jp License
+pay_jp.admin.license.license_key: license key
+pay_jp.admin.license.license_key.error.blank: license key is not entered.
+pay_jp.admin.license.license_key.error.regex: please enter valid license key.
+pay_jp.admin.license.email: email
+pay_jp.admin.license.email.error.blank: email is not entered.
+pay_jp.admin.license.email.error.regex: please enter valid email.
+
+pay_jp.admin.license.payjp.testkey: enter test payjp key
+pay_jp.admin.license.failed : License is failed
+pay_jp.admin.license.success: License is succeeded
+pay_jp.admin.license.wrong_key : You have wrong license key now
+pay_jp.admin.license.notyet : The license has not been certified yet.
+
+pay_jp.admin.license.title: PayJp license
+pay_jp.admin.license.header: PayJp license
+pay_jp.admin.license.confirm: Confirm
+pay_jp.admin.license.cancel: Cancel 
+pay_jp.admin.license.required: Required
+
+pay_jp.admin.license.error.product-key-require: product license key is required.
+pay_jp.admin.license.warning.product-key: If you want to use PayJp product key, please enter product license key.
+
+pay_jp.admin.license.test_setting: test environment
+pay_jp.admin.license.test_setting_notice: Press the right button.
+pay_jp.admin.license.test_env: test environment
+pay_jp.admin.license.test_key_elim: Please reinstall payjp plugin to eliminate test environment
+pay_jp.admin.license.notice.header: Notice

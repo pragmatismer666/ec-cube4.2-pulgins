@@ -1,0 +1,18 @@
+<script>
+    $(function(){
+        {% for PayJpOrder in PayJpOrdersMapping %}
+            {% if PayJpOrder.charge_id!='' %}
+                var targetTR=$("#search_result").find("a[href='{{PayJpOrder.order_edit_url }}']").parents("tr");
+                var targetTD=targetTR.find("td:nth(2)");
+                if(targetTD.find('.payJpChargeID').length==0){
+                    {# {% if PayJpOrder.is_charge_captured==false %} #}
+                        
+                    {# {% else %} #}
+                        var htmlToAppend='<a class="payJpChargeID" href="{{ PayJpOrder.dashboard_url }}" target="_blank">{{ PayJpOrder.charge_id }}</a>';
+                        targetTD.append(htmlToAppend);
+                    {# {% endif %} #}
+                }
+            {% endif %}
+        {% endfor %}
+    });
+</script>

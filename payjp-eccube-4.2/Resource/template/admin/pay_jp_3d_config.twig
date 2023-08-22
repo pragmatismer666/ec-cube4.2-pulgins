@@ -1,0 +1,75 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['pay_jp', 'pay_jp_3d_config'] %}
+
+{% block title %}{{ 'pay_jp.admin.config.title'|trans }}{% endblock %}
+{% block sub_title %}{{ 'pay_jp.admin.nav.pay_jp_3d_config'|trans }}{% endblock %}
+
+{% block stylesheet %}
+
+{% endblock stylesheet %}
+
+{% block main %}
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+<form role="form" method="post">
+    {{ form_widget(form._token) }}
+    <div class="c-contentsArea_cols">
+        <div class="c-primaryCol">
+            <div class="card rounded border-0 mb-4">
+                <div class="card-header">
+                    <span>3Dセキュア</span>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            3Dセキュア最小価値
+                        </div>
+                        <div class="col mb-2">
+                            {{ form_widget(form.td_min_value) }}
+                            {{ form_errors(form.td_min_value)}}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            3Dセキュアを有効にする
+                        </div>
+                        <div class="col mb-2">
+                            {{ form_widget(form.td_enabled) }}
+                            {{ form_errors(form.td_enabled)}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <p>
+                        3Dセキュア対応はPAY.JPのアカウントで3Dセキュア機能が有効になってる必要があります。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c-conversionArea">
+        <div class="c-conversionArea__container">
+            <div class="row justify-content-between align-items-center">
+                <div class="col-6">
+                    <div class="c-conversionArea__leftBlockItem">
+                        <a class="c-beseLink"
+                        href="{{ url('admin_store_plugin') }}">
+                            <i class="fa fa-backward" aria-hidden="true"></i>
+                            <span>{{ 'pay_jp.admin.config.back'|trans }}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row align-items-center justify-content-end">
+                        <div class="col-auto">
+                            <button class="btn btn-ec-conversion px-5"
+                                    type="submit">{{ 'pay_jp.admin.config.save'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

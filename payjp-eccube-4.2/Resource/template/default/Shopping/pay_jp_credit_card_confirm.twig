@@ -1,0 +1,12 @@
+{% if Order.Payment.getMethodClass == 'Plugin\\PayJp\\Service\\Method\\PayJpCreditCard' %}
+    <script>
+        $(function () {
+            $('.ec-orderPayment').first().after($('#PayJpPaymentContainer'));
+        });
+    </script>
+    <div style="display: none;">
+        <div id="PayJpPaymentContainer" class="ec-orderPayment">
+            {{ form_widget(form.pay_jp_token) }}
+        </div>
+    </div>
+{% endif %}

@@ -1,0 +1,62 @@
+{% if Order.Payment.getMethodClass == 'Plugin\\PayJp\\Service\\Method\\PayJpCreditCard' %}
+    <script>
+        $(function () {
+            $('.ec-orderPayment').first().after($('#PayJpPaymentContainer'));
+            {% if payJpErrorMessage is not null %}
+            $(document).ready(function () {
+                $("html, body").animate({
+                    scrollTop: $("#payJpCardHeading").offset().top
+                }, 2000);
+                setTimeout(function () {
+                    $("#card-element").addClass("PayJpElement--invalid");
+                }, 2000);
+            });
+            {% endif %}
+        });
+    </script>
+    <div style="display: none;">
+        <div id="PayJpPaymentContainer" class="ec-orderPayment">
+            <div id="payJpCardHeading" class="ec-rectHeading">
+                <h2>{{ 'pay_jp.front.card_info'|trans }}</h2>
+            </div>
+            <div class="ec-input">
+                <div id="pay_jp_credit_card_info" class="column">
+                   <div id="pay_jp_credit_card_info_body" class="form-group">
+                       <table id="pay_jp_form_table">
+                           <tr>
+                               <th><label>{{ 'pay_jp.front.card_number'|trans }}</label></th>
+                            <td>
+                                <input type="text" id="shopping_pay_jp_card_number" placeholder="" class="pay_jp_card_number form-control" maxlength="16">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label>{{ 'pay_jp.front.security_code'|trans }}</label></th>
+                            <td>
+                                <input type="text" id="shopping_pay_jp_card_cvv" placeholder="" class="pay_jp_card_cvv form-control" maxlength="4">
+                                {{ 'pay_jp.front.security_code_notice'|trans }}<br>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th><label>{{ 'pay_jp.front.expiration'|trans }}</label></th>
+                            <td>
+                                <input type="text" id="shopping_pay_jp_card_exp_month" placeholder="" class="pay_jp_card_exp form-control" maxlength="2"> /
+                                <input type="text" id="shopping_pay_jp_card_exp_year" placeholder="" class="pay_jp_card_exp form-control" maxlength="2">
+                                {% if(payJpLocale == 'ja') %}
+                                    <br />（例） {{ "now"|date("Y") }} 年 {{ "now"|date("n") }} 月なら {{ "now"|date("m") }}/{{ "now"|date("y") }}
+                                {% else %}
+                                    <br />ex. {{ "now"|date("M") }} {{ "now"|date("Y") }} => {{ "now"|date("m") }}/{{ "now"|date("y") }}
+                                {% endif %}
+                            </td></tr>
+                       </table>
+                   </div>
+                </div>
+                {{ form_widget(form.pay_jp_token) }}
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert">
+                    {{ payJpErrorMessage }}
+                    {{ form_errors(form.pay_jp_token) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}

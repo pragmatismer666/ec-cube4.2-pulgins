@@ -1,0 +1,115 @@
+# nav
+pay_jp.admin.nav.pay_jp: PAY.JP 管理
+pay_jp.admin.nav.pay_jp_config: APIキー
+pay_jp.admin.nav.pay_jp_log: ログ
+pay_jp.admin.nav.pay_jp_3d_config: 3Dセキュア
+# flash messages
+pay_jp.admin.save.success: 登録しました。
+pay_jp.admin.save.failed: 登録に失敗しました。
+
+# twig
+pay_jp.admin.config.title: PAY.JP 管理
+pay_jp.admin.config.sub_title: APIキー
+pay_jp.admin.config.header: APIキー
+pay_jp.admin.config.save: 登録
+pay_jp.admin.config.required: 必須
+pay_jp.admin.config.back: プラグイン一覧
+
+pay_jp.admin.config.public_api_key: 公開可能なキー
+pay_jp.admin.config.public_api_key.error.blank: パブリックAPIキーは入力されません。
+pay_jp.admin.config.public_api_key.error.regex: 公開APIキーを半角英数字で入力してください。
+pay_jp.admin.config.api_key_secret: 秘密鍵
+pay_jp.admin.config.api_key_secret.error.blank: 秘密キーが入力されていません。
+pay_jp.admin.config.api_key_secret.error.regex: 秘密キーは半角英数字で入力してください。
+
+pay_jp.admin.config.is_auth_and_capture_on: 認証とキャプチャをオンにする
+pay_jp.admin.config.charge_method: 処理方法
+pay_jp.admin.config.authorize: 認証のみ
+pay_jp.admin.config.authorize_and_capture: 認証と売上処理
+pay_jp.admin.config.payjp_fees_percent: 手数料の割合（手数料を引いた返金で利用）
+pay_jp.admin.config.payjp_fees_percent.error.regex: 有効なPayJp Fees Percentageを入力してください。
+
+pay_jp.admin.log.title: PAY.JP 管理
+pay_jp.admin.log.sub_title: ログ
+pay_jp.admin.log.create_at: 時刻
+pay_jp.admin.log.content: 内容
+pay_jp.admin.log.no_log: ログはまだありません。
+
+#Order Details Page
+pay_jp.admin.order.charge_id: 支払いID
+pay_jp.admin.order.section_title: PayJp決済
+pay_jp.admin.order.section_title_tooltip: PayJp決済に関連する操作ができます。
+pay_jp.admin.order.charge_id_tooltip: PayJp上の支払いIDです。クリックするとPayJp管理画面の取引詳細に移動されます。
+pay_jp.admin.order.actions: 決済操作
+pay_jp.admin.order.capture_action: 支払いを受け取る
+pay_jp.admin.order.capture_action_confirm: '\%charge_amount%を請求してもよろしいですか？'
+pay_jp.admin.order.refund_option.full_refund: 全額返金
+pay_jp.admin.order.refund_option.minus_fee: 手数料を引いて返金
+pay_jp.admin.order.refund_option.partial_refund: 一部返金
+pay_jp.admin.order.refund_option.error.invalid: 有効な払い戻しオプションを選択してください
+pay_jp.admin.order.refund_amount.error.invalid: 返金する有効な金額を入力してください
+pay_jp.admin.order.refund_amount.error.exceeded: 注文合計よりも多い金額を返金しようとしています
+pay_jp.admin.order.refund_action: 払い戻し
+pay_jp.admin.order.refund_action_confirm: を返金してよろしいですか？
+pay_jp.admin.order.refunded_amount: 返金額
+pay_jp.admin.order.invalid_request: 無効なリクエスト
+pay_jp.admin.order.error.already_captured: 支払いは既に取得されています
+pay_jp.admin.order.error.refunded: この支払いは既に払い戻されています
+pay_jp.admin.order.success.capture: 支払いが正常に取得されました
+pay_jp.admin.order.status.refunded: 払い戻し済み
+
+
+# PAY.JPEvent
+pay_jp.front.card_info: クレジットカード情報
+pay_jp.front.card_holder: 名義
+pay_jp.front.card_number: カード番号
+pay_jp.front.security_code: セキュリティコード
+pay_jp.front.security_code_notice:  ※ カード裏面に記載されている3〜4桁の番号を入力してください
+pay_jp.front.expiration: 有効期限
+pay_jp.front.card_accept: クレジットカード情報は入力済みです。
+pay_jp.front.card_details: '\%last4% で終わる %brand%'
+pay_jp.front.use_card: '\%last4% で終わる %brand% を利用する'
+pay_jp.front.use_another_card: 別のカードを使用する
+pay_jp.front.save_card: カード情報を保存する
+pay_jp.shopping.verify.error.payment_total.too_small: 支払額が小さすぎです。
+pay_jp.shopping.verify.error.payment_total.too_much: 支払額が多すぎです。
+pay_jp.shopping.verify.error.unexpected_error: Unexpected Error
+
+# PAY.JPClient
+pay_jp.front.unexpected_error: 別の決済方法をご利用いただくか、管理者にお問い合わせください。
+
+# pay_jp.js
+pay_jp.front.js.credit_card_holder_required: クレジットカードの名義を入力してください
+pay_jp.front.js.credit_card_number_required: クレジットカード番号を入力してください
+pay_jp.front.js.security_code_required: セキュリティコードを入力してください
+pay_jp.front.js.expiration_required: 有効期限を入力してください
+
+# payjp license
+pay_jp.admin.license.license_key: ライセンスキー
+pay_jp.admin.license.license_key.error.blank: ライセンスキーが入力されていません。
+pay_jp.admin.license.license_key.error.regex: 有効なライセンスキーを入力してください。
+
+pay_jp.admin.license.email: メールアドレス
+pay_jp.admin.license.email.error.blank: メールアドレスが入力されていません。 
+pay_jp.admin.license.email.error.regex: 有効なメールアドレスを入力してください。
+
+pay_jp.admin.license.payjp.testkey: テスト用PayJpキーを入力してください。
+pay_jp.admin.license.failed : ライセンス認証が失敗しました。
+pay_jp.admin.license.success: ライセンス認証が成功しました。
+pay_jp.admin.license.wrong_key : ライセンスキーが正しくありません。
+pay_jp.admin.license.notyet : ライセンスはまだ認定されていません。
+
+pay_jp.admin.license.title: ライセンス認証
+pay_jp.admin.license.header: ライセンス認証
+pay_jp.admin.license.confirm: 確認
+pay_jp.admin.license.cancel: キャンセル
+pay_jp.admin.license.required: 必須
+
+pay_jp.admin.license.error.product-key-require: 製品ライセンスキーが必要です。
+pay_jp.admin.license.warning.product-key: PayJpキーはライセンス認証後ご入力いただけます。
+
+pay_jp.admin.license.test_setting: テスト環境
+pay_jp.admin.license.test_setting_notice: 右ボタンを押してください。
+pay_jp.admin.license.test_env: テスト環境
+pay_jp.admin.license.test_key_elim: テストキーを削除するには、プラグインを再インストールしてください。
+pay_jp.admin.license.notice.header: 通報

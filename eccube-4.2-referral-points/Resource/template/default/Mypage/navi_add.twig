@@ -1,0 +1,10 @@
+<script>
+   (function($) {
+        let $navi_add = $(`
+            <li class="ec-navlistRole__item {% if mypageno|default('') == 'referral' %}active{% endif %}">
+                <a href="{{ url('mypage_referral') }}">{{ 'points_on_referral.front.mypage.nav__referral'|trans }}</a>
+            </li>
+        `);
+        $(".ec-navlistRole__navlist").append($navi_add);
+   })(jQuery);
+</script>

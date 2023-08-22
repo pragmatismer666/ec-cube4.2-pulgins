@@ -1,0 +1,229 @@
+<script type="text/javascript">
+    Payjp.setPublicKey("{{ payJpConfig.getPublicApiKey() }}");
+    var payJpCreditCardPaymentId={{ payJpCreditCardPaymentId }};
+    $(function() {
+
+        var payJPErrorMessages=new Object({
+            'invalid_number':'不正なカード番号',
+            'invalid_cvc':'不正なCVC',
+            'invalid_expiry_month':'不正な有効期限月',
+            'invalid_expiry_year':'不正な有効期限年',
+            'expired_card':'有効期限切れ',
+            'card_declined':'カード会社によって拒否されたカード',
+            'processing_error':'決済ネットワーク上で生じたエラー',
+            'missing_card':'顧客がカードを保持していない',
+            'invalid_id':'不正なID',
+            'no_api_key':'APIキーがセットされていない',
+            'invalid_api_key':'不正なAPIキー',
+            'invalid_plan':'不正なプラン',
+            'invalid_expiry_days':'不正な失効日数',
+            'unnecessary_expiry_days':'失効日数が不要なパラメーターである場合',
+            'invalid_flexible_id':'不正なID指定',
+            'invalid_timestamp':'不正なUnixタイムスタンプ',
+            'invalid_trial_end':'不正なトライアル終了日',
+            'invalid_string_length':'不正な文字列長',
+            'invalid_country':'不正な国名コード',
+            'invalid_currency':'不正な通貨コード',
+            'invalid_address_zip':'不正な郵便番号',
+            'invalid_amount':'不正な支払い金額',
+            'invalid_plan_amount':'不正なプラン金額',
+            'invalid_card':'不正なカード',
+            'invalid_customer':'不正な顧客',
+            'invalid_boolean':'不正な論理値',
+            'invalid_email':'不正なメールアドレス',
+            'no_allowed_param':'パラメーターが許可されていない場合',
+            'no_param':'パラメーターが何もセットされていない',
+            'invalid_querystring':'不正なクエリー文字列',
+            'missing_param':'必要なパラメーターがセットされていない',
+            'invalid_param_key':'指定できない不正なパラメーターがある',
+            'no_payment_method':'支払い手段がセットされていない',
+            'payment_method_duplicate':'支払い手段が重複してセットされている',
+            'payment_method_duplicate_including_customer':'支払い手段が重複してセットされている(顧客IDを含む)',
+            'failed_payment':'指定した支払いが失敗している場合',
+            'invalid_refund_amount':'不正な返金額',
+            'already_refunded':'すでに返金済み',
+            'cannot_refund_by_amount':'返金済みの支払いに対して部分返金ができない',
+            'invalid_amount_to_not_captured':'確定されていない支払いに対して部分返金ができない',
+            'refund_amount_gt_net':'返金額が元の支払い額より大きい',
+            'capture_amount_gt_net':'支払い確定額が元の支払い額より大きい',
+            'invalid_refund_reason':'不正な返金理由',
+            'already_captured':'すでに支払いが確定済み',
+            'cant_capture_refunded_charge':'返金済みの支払いに対して支払い確定ができない',
+            'charge_expired':'認証が失効している支払い',
+            'alerady_exist_id':'すでに存在しているID',
+            'token_already_used':'すでに使用済みのトークン',
+            'already_have_card':'指定した顧客がすでに保持しているカード',
+            'dont_has_this_card':'顧客が指定したカードを保持していない',
+            'doesnt_have_card':'顧客がカードを何も保持していない',
+            'invalid_interval':'不正な課金周期',
+            'invalid_trial_days':'不正なトライアル日数',
+            'invalid_billing_day':'不正な支払い実行日',
+            'exist_subscribers':'購入者が存在するプランは削除できない',
+            'already_subscribed':'すでに定期課金済みの顧客',
+            'already_canceled':'すでにキャンセル済みの定期課金',
+            'already_pasued':'すでに停止済みの定期課金',
+            'subscription_worked':'すでに稼働している定期課金',
+            'test_card_on_livemode':'本番モードのリクエストにテストカードが使用されている',
+            'not_activated_account':'本番モードが許可されていないアカウント',
+            'too_many_test_request':'テストモードのリクエストリミットを超過している',
+            'invalid_access':'不正なアクセス',
+            'payjp_wrong':'PAY.JPのサーバー側でエラーが発生している',
+            'pg_wrong':'決済代行会社のサーバー側でエラーが発生している',
+            'not_found':'リクエスト先が存在しないことを示す',
+            'not_allowed_method':'許可されていないHTTPメソッド'
+        });
+        var formID='shopping-form';
+
+        // スコープ内の共用関数
+        var dismissErrorIndication = function() {
+            $('#pay_jp_credit_card_info_body').removeClass('has-error');
+            $('.pay_jp_error_message').remove();
+        };
+        var restrictInputDigits = function(digits) {
+            var maxDigits = digits;
+            return (function(evt) {
+                var val = $(evt.target).val();
+                var newVal = '';
+                var i, chr;
+                for (i = 0; i < val.length && newVal.length < maxDigits; i++) {
+                    chr = val.substring(i, i + 1);
+                    if (chr.match(/\d/)) {
+                        newVal += chr;
+                    }
+                }
+                $(evt.target).val(newVal);
+                dismissErrorIndication();
+            });
+        };
+        var judgeInputDigits = function(val, digits) {
+            return !!val.match('\\d{' + digits + '}');
+        };
+        var judgeInputDigits2 = function(val, digits1, digits2) {
+            return !!val.match('\\d{' + digits1 + ',' + digits2 + '}');
+        };
+
+        // エラー表示がある場合はスクロール位置を調整する
+        if ($('.pay_jp_error_message')[0]) {
+            window.scrollTo(0, $('#pay_jp_form_table').offset().top - 50);
+        }
+
+        // カード番号を4桁の数字に制限する
+        $('#shopping_pay_jp_card_number').change(restrictInputDigits(16));
+
+        // セキュリティコードを4桁の数字に制限する
+        $('#shopping_pay_jp_card_cvv').change(restrictInputDigits(4));
+
+        // 有効期限を2桁の数字に制限する
+        $('#shopping_pay_jp_card_exp_month').change(restrictInputDigits(2));
+        $('#shopping_pay_jp_card_exp_year').change(restrictInputDigits(2));
+
+        // エラーモーダルをBODYの末尾に追加
+        var buff2 = '<div id="pay_jp_error_modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="PayJpModalLabel">';
+        buff2 += '<div class="modal-dialog modal-sm">';
+        buff2 += '<div class="modal-content">';
+        buff2 += '<div class="modal-header"> <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>';
+        buff2 += '<h4 class="modal-title" id="PayJpModalLabel">エラー</h4> </div>';
+        buff2 += '<div class="modal-body" id="pay_jp_error_content"></div>';
+        buff2 += '</div></div></div>';
+        $('body').append(buff2);
+
+        // 別のクレジットカードを使用するボタン
+        $('#reset_credit_card').click(function() {
+            $('#pay_jp_form_table').show(500);
+            $('#reset_credit_card_block').remove();
+            setTimeout(function () {
+                window.scrollTo(0, $('#pay_jp_form_table').offset().top - 50);
+            }, 200);
+        });
+
+        // フォーム送信時点でのバリデーション
+        $('#' + formID).submit(function (e) {
+            var errorMessage = null;
+
+            // お支払い方法が変更された場合は何もしない（グローバル変数参照）
+            //noinspection JSUnresolvedVariable
+            if ($('input[name="_shopping_order[Payment]"]:checked').val() != payJpCreditCardPaymentId || e.target.action.indexOf("confirm")==-1) {
+                $('#shopping_order_pay_jp_token').remove();
+                return true;
+            }
+
+            // カード情報が入力済みなら何もしない
+            if ($('#ignore_credit_card_information').val() == 1) {
+                return true;
+            }
+
+            // カード番号にそれぞれ4桁の数字が入力されていること
+            if (errorMessage === null) {
+                if (! (judgeInputDigits($('#shopping_pay_jp_card_number').val(), 13,16))) {
+                    errorMessage = '{{ 'pay_jp.front.js.credit_card_number_required'|trans }}';
+                }
+            }
+
+            // セキュリティコードに3〜4桁の数字が入力されていること
+            if (errorMessage === null) {
+                if (!judgeInputDigits2($('#shopping_pay_jp_card_cvv').val(), 3, 4)) {
+                    errorMessage = '{{ 'pay_jp.front.js.security_code_required'|trans }}';
+                }
+            }
+
+            // 有効期限にそれぞれ2桁の数字が入力されていること
+            if (errorMessage === null) {
+                if (!(judgeInputDigits($('#shopping_pay_jp_card_exp_year').val(), 2)
+                        && judgeInputDigits($('#shopping_pay_jp_card_exp_month').val(), 2))) {
+                    errorMessage = '{{ 'pay_jp.front.js.expiration_required'|trans }}';
+                }
+            }
+
+            // エラーメッセージを表示してフォーム送信を中断
+            if (errorMessage !== null) {
+                loadingOverlay('hide');
+                $('#order-button').removeAttr('disabled');
+                $('#pay_jp_error_content').text(errorMessage);
+                $('#pay_jp_error_modal').modal({
+                    backdrop: true,
+                    show: true
+                });
+                $('#pay_jp_credit_card_info_body').addClass('has-error');
+                return false;
+            }
+
+            e.preventDefault();
+
+            var card = {
+                number: document.querySelector('input[id="shopping_pay_jp_card_number"]').value,
+                cvc: document.querySelector('input[id="shopping_pay_jp_card_cvv"]').value,
+                exp_month: document.querySelector('input[id="shopping_pay_jp_card_exp_month"]').value,
+                exp_year: '20'+document.querySelector('input[id="shopping_pay_jp_card_exp_year"]').value
+            };
+
+            Payjp.createToken(card, function(status, response) {
+                if (status == 200) {
+                    payJpTokenHandler(response);
+                } else {
+                    var currentErrorMessage=(payJPErrorMessages.hasOwnProperty(response.error.code))?payJPErrorMessages[response.error.code]:'{{ 'pay_jp.front.unexpected_error'|trans }}';
+                    $('#pay_jp_form_table').before('<div class="pay_jp_error_message" role="alert">'+currentErrorMessage+ '</div>');
+                    loadingOverlay('hide');
+                    $('#order-button').removeAttr('disabled');
+                    return false;
+                }
+            });
+
+
+            return true;
+        });
+        function payJpTokenHandler(token) {
+            // Insert the token ID into the form so it gets submitted to the server
+            var form = document.getElementById(formID);
+            /*var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'payJpToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);*/
+
+            $('#shopping_order_pay_jp_token').val(token.id);
+
+            // Submit the form
+            form.submit();
+        }
+    });
+</script>
