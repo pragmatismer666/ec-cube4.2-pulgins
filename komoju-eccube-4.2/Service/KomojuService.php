@@ -12,10 +12,11 @@ class KomojuService{
 
     protected $container;
     protected $entityManager;
-
+    protected $config_service;
     public function __construct(ContainerInterface $container){
         $this->container = $container;
         $this->entityManager = $container->get('doctrine.orm.entity_manager');
+        $this->config_service = $this->container->get("plg_komoju.service.config");
     }
 
     public function cancelKomojuOrderByOrder($Order){
@@ -27,8 +28,7 @@ class KomojuService{
         }
 
         $payment_id = $komoju_order->getKomojuPaymentId();
-        $config_service = $this->container->get("plg_komoju.service.config");
-        $config_data = $config_service->getConfigData($Order);
+        $config_data = $this->config_service->getConfigData($Order);
         $komoju_client = new KomojuClient($config_data['secret_key']);
         $payment_obj = $komoju_client->getPayment($payment_id);
         if($komoju_client->getStatusCode() != 200 || empty($payment_obj)){

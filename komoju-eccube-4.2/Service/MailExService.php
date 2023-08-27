@@ -22,6 +22,7 @@ use Eccube\Repository\BaseInfoRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Eccube\Common\EccubeConfig;
 use Plugin\komoju\Service\ConfigService;
+use Symfony\Component\Mailer\MailerInterface;
 
 class MailExService extends MailService{
     
@@ -33,7 +34,7 @@ class MailExService extends MailService{
 
     public function __construct(
         ContainerInterface $container,
-        \Swift_Mailer $mailer,
+        MailerInterface $mailer,
         MailTemplateRepository $mailTemplateRepository,
         MailHistoryRepository $mailHistoryRepository,
         BaseInfoRepository $baseInfoRepository,
@@ -44,7 +45,7 @@ class MailExService extends MailService{
         $this->container = $container;
         $this->em = $this->container->get('doctrine.orm.entity_manager');
         
-        parent::__construct( $mailer, $mailTemplateRepository, $mailHistoryRepository, $baseInfoRepository, $eventDispatcher, $twig, $eccubeConfig);
+        parent::__construct( $mailer, $mailTemplateRepository, $mailHistoryRepository, $baseInfoRepository, $eventDispatcher, $twig, $eccubeConfig, $container);
         $this->mailHistoryRepository = $mailHistoryRepository;
     }
 
@@ -57,7 +58,7 @@ class MailExService extends MailService{
             'redirect_url' => $redirect_url,
         ]);
 
-        $message = (new \Swift_Message())
+        $message = (new MailerInterface())
             ->setSubject('['.$this->BaseInfo->getShopName().'] '.$template->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Order->getEmail()])
@@ -101,7 +102,7 @@ class MailExService extends MailService{
         return $message;
     }
     protected function initialMsg($Customer, $template){
-        $message = (new \Swift_Message())
+        $message = (new MailerInterface())
             ->setSubject('['.$this->BaseInfo->getShopName().'] '.$template->getMailSubject())
             ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
             ->setTo([$Customer->getEmail()])

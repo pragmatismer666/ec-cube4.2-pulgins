@@ -26,6 +26,7 @@ class KomojuEvent implements EventSubscriberInterface{
     private $errorMessage;
     private $eccubeConfig;
     private $base_info;
+    protected $config_service;
 
     const EVENT_KOMOJU_CONFIG_LOAD = "PLUGIN.KOMOJU.CONFIG.LOAD";
 
@@ -38,6 +39,8 @@ class KomojuEvent implements EventSubscriberInterface{
         $this->container = $container;
         $this->entityManager = $entityManager;        
         $this->base_info = $this->entityManager->getRepository(BaseInfo::class)->get();
+        $this->config_service = $this->container->get("plg_komoju.service.config");
+                
     }
     /**
      * @return array
@@ -108,10 +111,9 @@ class KomojuEvent implements EventSubscriberInterface{
         $Order = $event->getParameter("Order");
         if($Order){
             if($Order->getPayment()->getMethodClass() === KomojuMultiPay::class){
-                $config_service = $this->container->get("plg_komoju.service.config");
                 // $config_repo = $this->entityManager->getRepository(KomojuConfig::class);
                 // $config = $config_repo->getConfigByOrder($Order);
-                $config = $config_service->getConfigData($Order);
+                $config = $this->config_service->getConfigData($Order);
                 $total_amount = $Order->getPaymentTotal();
                 
                 $order_items = $Order->getProductOrderItems();
@@ -181,8 +183,7 @@ class KomojuEvent implements EventSubscriberInterface{
             return;
         }
 
-        $config_service = $this->container->get("plg_komoju.service.config");
-
+        
         $komoju_order_repo = $this->entityManager->getRepository(KomojuOrder::class);
         $komoju_orders = $komoju_order_repo->findBy(['Order'    =>  $OrderToSearch]);
 

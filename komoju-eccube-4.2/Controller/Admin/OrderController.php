@@ -25,7 +25,7 @@ class OrderController extends AbstractController{
     protected $komoju_order_repo;
     protected $log_service;
     protected $order_status_repo;
-
+    protected $mail_ex_service;
     public function __construct(
         ContainerInterface $container,
         OrderRepository $order_repo,
@@ -36,6 +36,7 @@ class OrderController extends AbstractController{
         $this->order_repo = $order_repo;
         $this->config_service = $container->get("plg_komoju.service.config");
         $this->log_service = $container->get("plg_komoju.service.komoju_log");
+        $this->mail_ex_service = $this->container->get("plg_komoju.service.komoju_mail_service");
         $this->komoju_order_repo = $komoju_order_repo;
         $this->order_status_repo = $order_status_repo;
     }
@@ -250,8 +251,7 @@ class OrderController extends AbstractController{
 
                 //BOC check if redirect url exist and send redirect url
                 if(isset($refund['redirect_url'])){
-                    $mail_ex_service = $this->container->get("plg_komoju.service.komoju_mail_service");
-                    $mail_ex_service->sendRefundRedirectMail($Order, $refund['redirect_url']);
+                    $this->mail_ex_service->sendRefundRedirectMail($Order, $refund['redirect_url']);
                 }
                 //EOC
                 $this->addSuccess('komoju_multipay.admin.order.refund.success', 'admin');
