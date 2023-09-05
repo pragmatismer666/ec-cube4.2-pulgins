@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/csvdownloadfilter",
+  "version": "1.0.3",
+  "description": "選択した受注データをCSV出力",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+  },
+  "extra": {
+    "code": "CSVDownloadFilter"
+  }
+}

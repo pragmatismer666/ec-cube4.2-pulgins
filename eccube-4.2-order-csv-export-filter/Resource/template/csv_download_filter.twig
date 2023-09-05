@@ -1,0 +1,17 @@
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("a[href='{{ url('admin_order_export_order') }}'],a[href='{{ url('admin_order_export_shipping') }}']").click(function (event) {
+            event.preventDefault();
+            var href = $(this).attr('href');
+            var isChecked = false;
+            $('input[id^=check_]').each(function () {
+                var check = $(this).prop('checked');
+                if (check) {
+                    isChecked = true;
+                }
+            });
+            $('#form_bulk').attr('action', href).submit();
+            return false;
+        });
+    });
+</script>

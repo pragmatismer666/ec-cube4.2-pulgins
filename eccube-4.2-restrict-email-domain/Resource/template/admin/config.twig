@@ -1,0 +1,91 @@
+{#
+/*
+* Plugin Name : RestrictEmailDomain
+*
+* Copyright (C) 2018 Subspire Inc. All Rights Reserved.
+* http://www.subspire.co.jp/
+*
+* For the full copyright and license information, please view the LICENSE
+* file that was distributed with this source code.
+*/
+#}
+{#
+[設定]-[店舗設定]-[会員登録ポイント付与]
+#}
+
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'plugin_list'] %}
+
+{% block title %}{{ 'restrict_email_domain.title'|trans }}{% endblock %}
+{% block sub_title %}{{ 'restrict_email_domain.sub_title'|trans }}{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block main %}
+
+  <form method="post" action="{{ url('restrict_email_domain_admin_config') }}">
+    {{ form_widget(form._token) }}
+    <div class="c-contentsArea__cols">
+      <div class="c-contentsArea__primaryCol">
+        <div class="c-primaryCol">
+          <div class="card rounded border-0 mb-4">
+            <div class="card-header">
+              <div class="row">
+                <div class="col-8">
+                  <div class="d-inline-block" data-toggle="tooltip" data-placement="top"
+                       title="Tooltip">
+                    <span class="card-title">{{ 'restrict_email_domain.box_title'|trans }}</span>
+                  </div>
+                </div>
+                <div class="col-4 text-end">
+                  <a data-bs-toggle="collapse" href="#basicConfig" aria-expanded="false"
+                     aria-controls="basicConfig">
+                    <i class="fa fa-angle-up fa-lg"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="collapse show ec-cardCollapse" id="basicConfig">
+              <div class="card-body">
+                <div class="row mb-2">
+                  <div class="col-3">
+                    <label>{{ 'restrict_email_domain.field.restricted_domains.label'|trans }}</label>
+                  </div>
+                  <div class="col">
+                    {{ form_widget(form.restricted_email_domains) }}
+                    {{ form_errors(form.restricted_email_domains) }}
+                    <br/>
+                    <p>{{ 'restrict_email_domain.field.restricted_domains.help_text'|trans }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="c-conversionArea">
+      <div class="c-conversionArea__container">
+        <div class="row justify-content-between align-items-center">
+          <div class="col-6">
+            <div class="c-conversionArea__leftBlockItem">
+              <a class="c-baseLink" href="{{ url('admin_store_plugin') }}"><i class="fa fa-backward" aria-hidden="true"></i>
+                <span>{{ 'restrict_email_domain.admin.back_button'|trans }}</span></a>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row align-items-center justify-content-end">
+              <div class="col-auto">
+                <button class="btn btn-ec-conversion px-5" type="submit">{{ 'restrict_email_domain.submit_button'|trans }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+{% endblock %}

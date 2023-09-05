@@ -1,0 +1,12 @@
+#Admin Config
+restrict_email_domain.title: Restrict Email Domain
+restrict_email_domain.sub_title: Plugin Settings
+restrict_email_domain.box_title: Plugin Settings
+restrict_email_domain.field.restricted_domains.label: Restricted Domains
+restrict_email_domain.field.restricted_domains.help_text: Enter each doamin names in new line
+restrict_email_domain.submit_button: Submit
+restrict_email_domain.admin.back_button: List of Plugins
+restrict_email_domain.admin.save.complete: Saved successfully.
+
+#Form Error
+restrict_email_domain.field.restricted_domains.error: The enter email address domain is not allowed.  Please use another email address.

@@ -1,0 +1,12 @@
+{
+  "name": "ec-cube/productreserve4",
+  "version": "1.0.3",
+  "description": "予約商品プラグイン",
+  "type": "eccube-plugin",
+  "require": {
+    "ec-cube/plugin-installer": "~0.0.6 || ^2.0"
+  },
+  "extra": {
+    "code": "ProductReserve4"
+  }
+}

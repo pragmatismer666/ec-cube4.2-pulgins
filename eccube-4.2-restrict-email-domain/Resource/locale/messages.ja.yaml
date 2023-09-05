@@ -1,0 +1,12 @@
+#Admin Config
+restrict_email_domain.title: メールアドレスドメイン制限
+restrict_email_domain.sub_title: プラグイン設定
+restrict_email_domain.box_title: プラグイン設定
+restrict_email_domain.field.restricted_domains.label: 制限するドメイン
+restrict_email_domain.field.restricted_domains.help_text: ドメインを１行ごとに入力する
+restrict_email_domain.submit_button: 登録
+restrict_email_domain.admin.back_button: プラグイン一覧
+restrict_email_domain.admin.save.complete: 登録が完了しました。
+
+#Form Error
+restrict_email_domain.field.restricted_domains.error: 入力されたメールアドレスのドメインはご利用いただけません。別のメールアドレスをご利用ください。
