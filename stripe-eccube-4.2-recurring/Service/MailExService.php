@@ -27,7 +27,9 @@ use Eccube\Repository\BaseInfoRepository;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Eccube\Common\EccubeConfig;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
+use Symfony\Component\Mime\Email;
 
 class MailExService extends MailService{
 
@@ -71,13 +73,12 @@ class MailExService extends MailService{
 
         $message = $this->initialMsg($rec_order, $template);
 
-        $message->setBody($body);
+        $message->text($body);
         if($htmlFileName){
             $htmlBody = $this->twig->render($htmlFileName, $param);
             $message
-                ->setContentType('text/plain; charset=UTF-8')
-                ->setBody($body, 'text/plain')
-                ->addPart($htmlBody, 'text/html');
+                ->text($body)
+                ->html($htmlBody);
         }
         $count = $this->mailer->send($message);
         log_info('定期受注メール送信完了', ['count' => $count]);
@@ -88,9 +89,9 @@ class MailExService extends MailService{
                 ->setMailBody($message->getBody())
                 ->setOrder($order)
                 ->setSendDate(new \DateTime());
-            $multipart = $message->getChildren();
-            if (count($multipart) > 0) {
-                $MailHistory->setMailHtmlBody($multipart[0]->getBody());
+            $htmlBody = $message->getHtmlBody();
+            if (!empty($htmlBody)) {
+                $MailHistory->setMailHtmlBody($htmlBody);
             }
             $this->em->persist($MailHistory);
             $this->em->flush();
@@ -112,13 +113,12 @@ class MailExService extends MailService{
 
         $message = $this->initialMsg($rec_order, $template);
 
-        $message->setBody($body);
+        $message->text($body);
         if($htmlFileName){
             $htmlBody = $this->twig->render($htmlFileName, $param);
             $message
-                ->setContentType('text/plain; charset=UTF-8')
-                ->setBody($body, 'text/plain')
-                ->addPart($htmlBody, 'text/html');
+                ->text($body)
+                ->html($htmlBody);
         }
         $count = $this->mailer->send($message);
         log_info('定期受注upcomingメール送信完了', ['count' => $count]);
@@ -140,13 +140,12 @@ class MailExService extends MailService{
 
         $message = $this->initialMsg($rec_order, $template);
 
-        $message->setBody($body);
+        $message->text($body);
         if($htmlFileName){
             $htmlBody = $this->twig->render($htmlFileName, $param);
             $message
-                ->setContentType('text/plain; charset=UTF-8')
-                ->setBody($body, 'text/plain')
-                ->addPart($htmlBody, 'text/html');
+                ->text($body)
+                ->html($htmlBody);
         }
         $count = $this->mailer->send($message);
         log_info('定期受注CANCELEDメール送信完了', ['count' => $count]);
@@ -168,25 +167,24 @@ class MailExService extends MailService{
 
         $message = $this->initialMsg($rec_order, $template);
 
-        $message->setBody($body);
+        $message->text($body);
         if($htmlFileName){
             $htmlBody = $this->twig->render($htmlFileName, $param);
             $message
-                ->setContentType('text/plain; charset=UTF-8')
-                ->setBody($body, 'text/plain')
-                ->addPart($htmlBody, 'text/html');
+                ->text($body)
+                ->html($htmlBody);
         }
         $count = $this->mailer->send($message);
         log_info('定期受注Failedメール送信完了', ['count' => $count]);
     }
     public function initialMsg($rec_order, $template){
-        $message = (new MailerInterface())
-            ->setSubject('['.$this->BaseInfo->getShopName().'] '.$template->getMailSubject())
-            ->setFrom([$this->BaseInfo->getEmail01() => $this->BaseInfo->getShopName()])
-            ->setTo([$rec_order->getOrder()->getEmail()])
-            ->setBcc($this->BaseInfo->getEmail01())
-            ->setReplyTo($this->BaseInfo->getEmail03())
-            ->setReturnPath($this->BaseInfo->getEmail04());
+        $message = (new Email())
+            ->subject('['.$this->BaseInfo->getShopName().'] '.$template->getMailSubject())
+            ->from(new Address($this->BaseInfo->getEmail01(), $this->BaseInfo->getShopName()))
+            ->to([$rec_order->getOrder()->getEmail()])
+            ->bcc($this->BaseInfo->getEmail01())
+            ->replyTo($this->BaseInfo->getEmail03())
+            ->returnPath($this->BaseInfo->getEmail04());
         return $message;
     }
     public function isHtml($template_path){

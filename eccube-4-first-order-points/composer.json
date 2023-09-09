@@ -4,7 +4,7 @@
   "description": "初回購入ポイント付与",
   "type": "eccube-plugin",
   "require": {
-    "ec-cube/plugin-installer": "~0.0.7 || ^2.0"
+    "ec-cube/plugin-installer": "~0.0.7"
   },
   "extra": {
     "code": "PointsOnFirstOrder"

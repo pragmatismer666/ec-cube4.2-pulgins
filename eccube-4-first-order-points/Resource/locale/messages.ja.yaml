@@ -1,0 +1,12 @@
+# flash messages
+points_on_first_order.admin.save.complete: 登録しました。
+points_on_first_order.admin.save.error: 登録に失敗しました。
+points_on_first_order.admin.error.negative_points: 0以上の数字を入力してください
+
+# 設定画面
+points_on_first_order.admin.config.title: 初回購入ポイント付与
+points_on_first_order.admin.config.sub_title: プラグイン一覧
+points_on_first_order.admin.config.config_title: 設定
+points_on_first_order.admin.config.points: 初回購入ポイント付与
+points_on_first_order.admin.config.conversion.save: 登録
+points_on_first_order.admin.config.conversion.back: プラグイン一覧

@@ -17,8 +17,9 @@ use Plugin\StripeRec\Entity\PurchasePoint;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
 use Eccube\Repository\AbstractRepository;
-// use Symfony\Bridge\Doctrine\RegistryInterface;
+
 use Doctrine\Persistence\ManagerRegistry as RegistryInterface;
+
 /**
  * PurchasePointRepository
  */

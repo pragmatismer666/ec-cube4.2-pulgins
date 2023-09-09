@@ -4,7 +4,7 @@ namespace Plugin\StripeRec\Repository;
 
 use Eccube\Repository\AbstractRepository;
 use Plugin\StripeRec\Entity\LicenseKey;
-// use Symfony\Bridge\Doctrine\RegistryInterface;
+
 use Doctrine\Persistence\ManagerRegistry as RegistryInterface;
 /**
  * Repository

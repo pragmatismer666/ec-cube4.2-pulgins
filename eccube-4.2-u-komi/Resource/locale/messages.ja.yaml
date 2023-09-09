@@ -1,0 +1,4 @@
+admin.ukl.save.complete: API情報を保存しました。
+admin.ukl.save.error: 無効なAPI情報です。
+admin.ukl.sync.nodata: 該当する注文データはありません。
+admin.ukl.sync.complete: 受注データを送信しました。

@@ -72,6 +72,7 @@ class Event implements EventSubscriberInterface
 
     private function addPoint(Order $Order)
     {
+        //$app = \Eccube\Application::getInstance();
         $Config = $this->configRepository->get();
         $points_on_first_order = 0;
         if ($Config) {

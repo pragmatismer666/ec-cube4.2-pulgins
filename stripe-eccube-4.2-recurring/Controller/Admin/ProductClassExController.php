@@ -51,8 +51,6 @@ class ProductClassExController extends ProductClassController{
     ) {
         $this->container = $container;
         parent::__construct($productRepository, $productClassRepository, $classCategoryRepository, $baseInfoRepository, $taxRuleRepository);        
-        //parent::__construct(NULL, $productClassRepository, NULL, $taxRuleRepository, NULL, $productRepository,$baseInfoRepository, NULL,  NULL, NULL);        
-        
         $this->rec_service = $this->container->get("plg_stripe_rec.service.recurring_service");
         $this->stripe_service = $this->container->get("plg_stripe_rec.service.stripe_service");
     }

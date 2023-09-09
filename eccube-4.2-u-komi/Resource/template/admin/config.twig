@@ -1,0 +1,292 @@
+{% extends '@admin/default_frame.twig' %}
+
+{% set menus = ['store', 'plugin', 'plugin_list'] %}
+
+{% block title %}ukomi{% endblock %}
+{% block sub_title %}プラグイン一覧{% endblock %}
+
+{% form_theme form '@admin/Form/bootstrap_4_horizontal_layout.html.twig' %}
+
+{% block stylesheet %}
+    <style>
+    .sub-title {margin: 1rem 0 1rem;}
+    </style>
+{% endblock stylesheet %}
+
+{% block javascript %}
+<script>
+$(document).ready(function() {
+    $.ajax({
+        url : '{{ url('ukomi4_admin_check') }}',
+            type : 'get',
+            dataType : 'json',
+            success: function(json) {
+                for(k in json) {
+                    $('#check_' + k).text(json[k] == 1 ? '〇' : '✖');
+                }
+                $('#tag_checking').hide();
+            }
+        })
+    })
+</script>
+{% endblock javascript %}
+
+{% block main %}
+    <div class="c-contentsArea__cols">
+        <div class="c-primaryCol">
+            <div class="row">
+                <div class="col-md-6">
+                <div class="card rounded border-0 mb-4">
+                        <div class="card-header">
+                                           <h3 class="card-title">導入ガイド</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="card rounded border-0">
+                                <div class="card-header"><span><b>１）U-KOMIアカウント登録</b></span></div>
+                                <div class="card-body">
+                                    <p>
+                                        下記のURLでアカウントを作成してください。
+                                    </p>
+                                    <p>
+                                        <a href="https://admin.u-komi.com/register" target="_blank">https://admin.u-komi.com/register</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0">
+                                <div class="card-header"><span><b>２）API情報設定</b></span></div>
+                                <div class="card-body">
+                                    <p>U-KOMIアカウントを作成後、管理画面にログインしてください。<br><br>
+                                     <a href="https://admin.u-komi.com/" target="_blank">https://admin.u-komi.com/</a></p>
+                                    <p>その後、【ウェブサイト】→【ウェブサイト設定】ページにあるAPIキーとシークレットをこのページの右側にある【API情報設定】でご入力いただき、保存を行ってください。</p>
+                                    <p>【レビュー依頼送信タイミング】の値は【発送済み】ステータスがおすすめです。</p>
+                                    <p>これでU-KOMIの自動導入が完了です。手動導入が必要の場合がありますので、次のステップをご確認ください。</p>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0">
+                                <div class="card-header"><span><b>３）導入状況を確認</b></span></div>
+                                <div class="card-body">
+                                    <p>このページの右側にある【タグ設置状況】で各ページのタグ設置状況をご確認ください。</p>
+                                    <p>丸がついてないものがありましたらお使いのテーマで自動導入がうまくできなかったので、下記の手順で手動設置を行ってください。</p>
+                                    <p>1. このページの右側にある【API情報設定】で【自動導入を無効にする】のチェックを入れていただく、保存を行ってください。</p>
+                                    <p>2.下記【手動設置のタグ】のタブを開いていただき、各テーマファイルでタグの手動設置を行ってください。</p>
+                                    <p>その後、このページを更新していただきこのページにある【タグ設置状況】で各タグの設置状況をご確認ください。</p>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0">
+                                <div class="card-header"><span><b>４）過去受注データ送信（任意）</b></span></div>
+                                <div class="card-body">
+                                    <p>このページの右側にある【受注データ送信】で過去受注データを一括送信することができます。こちらの送信で過去受注データを対象にレビュー依頼メールを送ることができます。</p>
+                                    <p>対象期間と注文ステータスを選択していただき、送信を行ってください。事業によって異なりますが、3か月間～6か月間程度前の受注データ送信をおすすめします。</p>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0">
+                                <div class="card-header"><span><b>導入サポートに関して</b></span></div>
+                                <div class="card-body">
+                                    <p>U-KOMIの導入手順やご利用で何かわからないことがありましたらサポートいたしますのでお気軽にご連絡ください。</p>
+                                    <p>お問い合わせフォーム：<a href="https://u-komi.com/contact" target="_blank">https://u-komi.com/contact</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card rounder border-0">
+                        <div class="card-header">
+<div class="row">
+                                    <div class="col-8">
+                                        <div class="d-inline-block" data-tooltip="true" data-placement="top" title="" data-original-title="この商品に設定された規格を確認・管理できます。">
+                                        <span class="card-title">
+                                           <h3 class="card-title">手動設置のタグ</h3>
+                                        </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-end">
+                                        <a data-bs-toggle="collapse" href="#tags" aria-expanded="true" aria-controls="tags" class="">
+                                            <i class="fa fa-lg fa-angle-down"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                        </div>
+                        <div class="ec-cardCollapse collapse" id="tags" style="">
+                        <div class="card-body">
+                            <div class="card rounded border-0 mb-4">
+                                <div class="card-header"><span>タグ設置</span></div>
+                                <div class="card-body">
+                                    <p>
+                                        サイト内でU-KOMI関連のコンテンツを表示するためにヘッダーに下記のJSを追加します。
+                                    </p>
+                                    <p>
+                                        サイト内でU-KOMIのコンテンツを表示するためのコード：
+                                    </p>
+                                    <textarea class="form-control" readonly="readonly" rows="5">{{ tags.head }}</textarea>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0 mb-4">
+                                <div class="card-header"><span>スターレーティングの表示</span></div>
+                                <div class="card-body">
+                                    <p>サイト内でスターレーティングを表示するためのコードを追加します。<br>
+                                        TOPページ商品一覧、検索結果、商品詳細ページなどで表示できます。</p>
+                                    <p>商品単位でスターレーティングを表示するためのコード：</p>
+                                    <textarea class="form-control" readonly="readonly">{{ tags.star_unit }}</textarea>
+                                    <p class="mt-3">グループ化された商品のスターレーティングを表示するためのコード：</p>
+                                    <textarea class="form-control" readonly="readonly">{{ tags.star_group }}</textarea>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0 mb-4">
+                                <div class="card-header"><span>レビュー一覧の表示</span></div>
+                                <div class="card-body">
+                                    <p>サイト内でレビュー一覧を表示するためのコードを追加します。</p>
+                                    <p>商品単位でレビュー一覧を表示するためのコード：</p>
+                                    <textarea class="form-control" readonly="readonly">{{ tags.review_unit }}</textarea>
+                                    <p class="mt-3">グループ化された商品のレビュー一覧を表示するためのコード：</p>
+                                    <textarea class="form-control" readonly="readonly">{{ tags.review_group }}</textarea>
+                                    <p class="mt-3">レビュー専用ページのレビュー一覧を表示するためのコード：</p>
+                                    <textarea class="form-control" readonly="readonly">{{ tags.review_page }}</textarea>
+                                </div>
+                            </div>
+                            <div class="card rounded border-0 mb-4">
+                                <div class="card-header"><span>コンバージョントラッキングコードの設置</span></div>
+                                <div class="card-body">
+                                    <p>U-KOMI管理画面から解析データを確認できるためのコンバージョントラッキングコードを設置します。<br>
+                                        こちらのコードはチェックアウト完了ページ（サンクスページ）で設置します。</p>
+                                    <p>コンバージョントラッキングコード：</p>
+                                    <textarea class="form-control" readonly="readonly">{{ tags.tracking }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <form class="form-horizontal" method="post" action="{{ url('ukomi4_admin_config') }}">
+                        <input type="hidden" name="mode" value="config">
+                        {{ form_widget(form._token) }}
+                        <div class="card rounded border-0 mb-4">
+                            <div class="card-header">
+                                <h3 class="card-title">API情報設定</h3>
+                            </div><!-- /.box-header -->
+                            <div class="card-body">
+                                {% if api_init != 1%}
+                                    <p class="alert alert-danger">
+                                        API情報設定は完了していません。
+                                    </p>
+                                {% endif %}
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required ">APIキー<span class="text-danger"> *</span></label>
+                                    <div class="col-sm-8 {% if form.api_key.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form.api_key) }}
+                                        {{ form_errors(form.api_key) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required ">APIシークレット<span class="text-danger"> *</span></label>
+                                    <div class="col-sm-8 {% if form.api_secret.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form.api_secret) }}
+                                        {{ form_errors(form.api_secret) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required ">レビュー依頼送信タイミング<span class="text-danger"> *</span></label>
+                                    <div class="col-sm-8 {% if form.order_status.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form.order_status) }}
+                                        {{ form_errors(form.order_status) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required "></label>
+                                    <div class="col-sm-8 {% if form.no_auto.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form.no_auto) }}
+                                        {{ form_errors(form.no_auto) }}
+                                    </div>
+                                </div>
+                            <p class="alert alert-warning">
+                            各商品に「商品コード」の指定が必要です。指定されていない場合は連携できません。
+                            </p>
+                            </div><!-- /.box-body -->
+                            <div class="card-footer">
+                                <button class="btn btn-primary" type="submit"> 保 存 </button>
+
+                            </div>
+                        </div><!-- /.box -->
+                    </form>
+
+                    <form class="form-horizontal" method="post" action="{{ url('ukomi4_admin_config') }}">
+                        <input type="hidden" name="mode" value="sync">
+                        {{ form_widget(form_sync._token) }}
+                        <div class="card rounded mb-4 border-0">
+                            <div class="card-header">
+                                <h3 class="card-title">受注データ送信</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required ">開始日</label>
+                                    <div class="col-sm-8 {% if form_sync.sync_date_start.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form_sync.sync_date_start, {'attr': {'class': 'input_cal form-control'}}) }}
+                                        {{ form_errors(form_sync.sync_date_start) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required ">終了日</label>
+                                    <div class="col-sm-8 {% if form_sync.sync_date_end.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form_sync.sync_date_end, {'attr': {'class': 'input_cal form-control'}}) }}
+                                        {{ form_errors(form_sync.sync_date_end) }}
+                                    </div>
+                                </div>
+                                <div class="form-group row mb-3">
+                                    <label class="col-sm-4 control-label required ">注文ステータス</label>
+                                    <div class="col-sm-8 {% if form_sync.order_status.vars.errors is not empty %}has-error{% endif %}">
+                                        {{ form_widget(form_sync.order_status, {'attr': {'class': 'form-control'}}) }}
+                                        {{ form_errors(form_sync.order_status) }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-primary" type="submit"> 送 信 </button>
+
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="card rounded border-0 mb-4">
+                        <div class="card-header"><h3 class="card-title">タグ設置状況</h3></div>
+                        <div class="card-body">
+                            <p class="alert alert-info" id="tag_checking">
+                                タグ設置状況をチェック中・・・
+                            </p>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>タグ</th>
+                                    <th>状況</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td>ヘッダJS</td>
+                                    <td><span id="check_head">...</span></td>
+                                </tr>
+                                <tr>
+                                    <td>商品リスト・スターレーティング</td>
+                                    <td><span id="check_star_list">...</span></td>
+                                </tr>
+                                <tr>
+                                    <td>商品詳細・スターレーティング</td>
+                                    <td><span id="check_star_detail">...</span></td>
+                                </tr>
+                                <tr>
+                                    <td>商品詳細・レビュー一覧</td>
+                                    <td><span id="check_review_list">...</span></td>
+                                </tr>
+                                <tr>
+                                    <td>コンバージョントラッキング</td>
+                                    <td><span id="check_tracking">...</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div><!-- /.col -->
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

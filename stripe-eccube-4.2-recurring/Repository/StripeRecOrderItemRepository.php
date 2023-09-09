@@ -3,8 +3,9 @@
 namespace Plugin\StripeRec\Repository;
 
 use Eccube\Repository\AbstractRepository;
-// use Symfony\Bridge\Doctrine\RegistryInterface;
+//use Symfony\Bridge\Doctrine\RegistryInterface;
 use Doctrine\Persistence\ManagerRegistry as RegistryInterface;
+
 use Eccube\Repository\ProductClassRepository;
 use Plugin\StripeRec\Entity\StripeRecOrderItem;
 
